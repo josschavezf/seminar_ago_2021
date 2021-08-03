@@ -18,7 +18,7 @@ knitr::include_graphics("img/aboutme.png")
 ---
 # Transcriptional regulators in prokaryotes
 .center[
-```{r,echo=FALSE,out.width='100%'}
+```{r,echo=FALSE,out.width='100%',message=FALSE,warning=FALSE}
 library(DiagrammeR)
 library(dplyr)
 a_graph <-
@@ -614,7 +614,7 @@ class: chapter-slide
 
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
 library(knitr)
 library(dplyr)
 library(GenomicRanges)
@@ -626,7 +626,6 @@ xaringanExtra::use_clipboard()
 ```
 
 # The regulonDB database
-<br>
 
 - Contains transcriptional regulatory data from *Escherichia coli* K12.
 - Is one of the better curated databases.
@@ -638,14 +637,13 @@ xaringanExtra::use_clipboard()
 ]
 
 [
-```{r,out.width='65%',echo=FALSE,fig.align='center'}
+```{r,out.width='55%',echo=FALSE,fig.align='center'}
 include_graphics("img/regulondb.png")
 ```
 ](http://regulondb.ccg.unam.mx)
 
 ---
 # Regutools facilitates the access to regulonDB in a programmatic way
-<br><br>
 
 ```{r,echo=FALSE,out.width='100%',fig.align='center'}
 include_graphics("img/regutools.png")
@@ -707,13 +705,6 @@ e_coli_regulondb <-
         database_version = "v10.8",
         genome_version = "1"
     )
-```
-]
-
---
-<br><br>
-.right-column[
-```{r}
 e_coli_regulondb
 ```
 ]
@@ -827,7 +818,7 @@ get_dataset(e_coli_regulondb, "GENE",
 ---
 # Retrieve all the regulatory elements within a genomic range
 
-* By deafult only shows genes
+* By default the result only shows genes
 ```{r}
 get_dna_objects(e_coli_regulondb,
                 grange = GRanges("chr", IRanges(1, 5000)))
