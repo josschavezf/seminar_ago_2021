@@ -666,9 +666,9 @@ include_graphics("img/regutools.png")
 
 - The database is stored separately from the main package.
 
-- We use connection through Annotation_db()
+- We use connection through AnnotationHub()
 
-```{r,eval=FALSE}
+```{r,eval=FALSE, message=FALSE,warning=FALSE}
 regulondb_conn <- connect_database()
 ```
 
@@ -678,7 +678,7 @@ library(BiocFileCache)
 library(regutools)
 ```
 
-```{r,message=FALSE}
+```{r,message=FALSE,warning=FALSE}
 regulondb_conn <- connect_database(bfc = BiocFileCache("base"))
 ```
 
