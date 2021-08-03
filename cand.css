@@ -25,7 +25,7 @@
 
 
 .title-slide {
-  background-image: url('/img/unam.png'),url('/img/ibt.png'), linear-gradient(to bottom, white 93%, rgba(13,175,238) 100%)  ;
+  background-image: url('img/unam.png'),url('img/ibt.png'), linear-gradient(to bottom, white 93%, rgba(13,175,238) 100%)  ;
   background-position: 5% 5%,97% 5%, center ;
   background-size: 100px,240px, cover ;
 }

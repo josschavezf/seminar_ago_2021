@@ -4,6 +4,7 @@ author: "Joselyn C. Chávez-Fuentes <br> PhD Candidate"
 institute: "Computational Genomics Group <br><br> Universidad Nacional Autónoma de México"
 output:
   xaringan::moon_reader:
+    self-contained: true
     css: ["cand.css"]
     nature:
       ratio: '16:9'
