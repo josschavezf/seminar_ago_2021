@@ -1,0 +1,120 @@
+.remark-slide-content {
+  background-image: linear-gradient(to bottom, white 93%, rgba(13,175,238) 100%) ;
+  background-position: center;
+  background-size: cover ;
+  font-size: 18pt;
+}
+
+.remark-slide-content h1 {
+  color: #3269a8;
+  font-weight: bold;
+  font-size: 28pt;
+}
+
+.remark-slide-content h2{
+  color: #3269a8;
+  font-weight: bold;
+  font-size: 26pt;
+}
+
+.remark-slide-content h3 {
+  color: #000000;
+  font-weight: bold;
+  font-size: 24pt;
+}
+
+
+.title-slide {
+  background-image: url('/img/unam.png'),url('/img/ibt.png'), linear-gradient(to bottom, white 93%, rgba(13,175,238) 100%)  ;
+  background-position: 5% 5%,97% 5%, center ;
+  background-size: 100px,240px, cover ;
+}
+
+.title-slide h1 {
+  color: #000000;
+  font-weight: bold;
+  font-size: 28pt;
+}
+
+.title-slide h2 {
+  font-weight: normal;
+  color: #000000;
+  font-size: 22pt
+}
+
+.title-slide h3 {
+  color: #000000;
+  font-size: 22pt;
+  font-weight: normal;
+}
+
+.chapter-slide {
+  background-color: #3269a8;
+  background-image: url();
+}
+
+.chapter-slide h1 {
+  position: absolute;
+  top: 55%;
+  left: 10%;
+  text-align: left;
+  color: #ffffff ;
+}
+
+.chapter-slide h2 {
+  font-size: 32pt;
+  color: #ffffff ;
+}
+
+/* Two-column layout */
+.left-column {
+  width: 40%;
+  float: left;
+  margin-top: -30px;
+}
+
+.right-column {
+  width: 58%;
+  float: right;
+  margin-top: -30px;
+}
+
+.pull-left {
+  float: left;
+  width: 47%;
+  margin-top: -30px;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+  margin-top: -30px;
+}
+
+.left-column-rev {
+  color: #777;
+  width: 75%;
+  height: 92%;
+  float: left;
+}
+
+.right-column-rev {
+  width: 20%;
+  float: right;
+  padding-top: 1em;
+}
+
+.column-one {
+  width: 30%;
+  float: left;
+}
+
+.column-two {
+  width: 30%;
+  position: absolute;
+  left: 35%;
+}
+
+.column-three {
+  width: 30%;
+  float: right;
+}

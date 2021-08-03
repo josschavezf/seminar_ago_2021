@@ -1,0 +1,7 @@
+organismo	phylum	CDS	COG0568 (sigmaD/sigmaS/sigmaH)	COG1191 (sigmaF/SigB)	COG1508 (sigmaN)	COG1595 (ECF)
+aaa	Proteobacteria	4737	3	1	2	9
+aab	Actinobacteria	8115	2	3	0	52
+aace	Proteobacteria	3200	2	0	1	6
+aal	Proteobacteria	3445	3	2	1	13
+aalg	Bacteroidetes	4932	3	0	1	34
+aamy	Firmicutes	3236	1	8	1	5

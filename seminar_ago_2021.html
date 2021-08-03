@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Creating R packages for the analysis of transcriptional regulators in prokaryotes.  </title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joselyn C. Chávez-Fuentes   PhD Candidate" />
+    <script src="seminar_ago_2021_files/header-attrs-2.9/header-attrs.js"></script>
+    <script src="seminar_ago_2021_files/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <script src="seminar_ago_2021_files/viz-1.8.2/viz.js"></script>
+    <link href="seminar_ago_2021_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="seminar_ago_2021_files/grViz-binding-1.0.6.1/grViz.js"></script>
+    <script src="seminar_ago_2021_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="seminar_ago_2021_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <script src="seminar_ago_2021_files/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="seminar_ago_2021_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="seminar_ago_2021_files/xaringanExtra-clipboard-0.2.6/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
+    <link rel="stylesheet" href="cand.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Creating R packages for the analysis of transcriptional regulators in prokaryotes.<br><br>
+### Joselyn C. Chávez-Fuentes <br> PhD Candidate
+### Computational Genomics Group <br><br> Universidad Nacional Autónoma de México
+
+---
+
+# About me
+
+&lt;img src="img/aboutme.png" width="95%" style="display: block; margin: auto;" /&gt;
+
+---
+# Transcriptional regulators in prokaryotes
+.center[
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```
+## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+```
+
+<div id="htmlwidget-77a2af12e5c31c8479c4" style="width:100%;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-77a2af12e5c31c8479c4">{"x":{"diagram":"digraph {\n\ngraph [layout = \"neato\",\n       outputorder = \"edgesfirst\",\n       bgcolor = \"white\"]\n\nnode [fontname = \"Helvetica\",\n      fontsize = \"10\",\n      shape = \"circle\",\n      fixedsize = \"true\",\n      width = \"0.5\",\n      style = \"filled\",\n      fillcolor = \"aliceblue\",\n      color = \"gray70\",\n      fontcolor = \"gray50\"]\n\nedge [fontname = \"Helvetica\",\n     fontsize = \"8\",\n     len = \"1.5\",\n     color = \"gray80\",\n     arrowsize = \"0.5\"]\n\n  \"1\" [label = \"Transcriptional \n regulation\", shape = \"rectangle\", style = \"rounded\", fontsize = \"8\", width = \"1\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\", pos = \"1,2!\"] \n  \"2\" [label = \"Sigma Factors\", shape = \"rectangle\", style = \"rounded\", fontsize = \"6\", width = \"0.7\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\", pos = \"0,1!\"] \n  \"3\" [label = \"Transcription \n Factors\", shape = \"rectangle\", style = \"rounded\", fontsize = \"6\", width = \"0.7\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\", pos = \"1,1!\"] \n  \"4\" [label = \"Riboswitches\", shape = \"rectangle\", style = \"rounded\", fontsize = \"6\", width = \"0.6\", fillcolor = \"#F0F8FF\", fontcolor = \"#000000\", pos = \"2,1!\"] \n  \"1\"->\"2\" \n  \"1\"->\"3\" \n  \"1\"->\"4\" \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+---
+# Transcriptional regulators in prokaryotes
+
+### Sigma Factors
+
+.pull-left[&lt;br&gt;&lt;br&gt;
+- Recognize the promoter sequence.
+
+- Target the RNAP holoenzyme to specific promoters.
+
+- Stabilize the single-stranded open complex.
+]
+
+.pull-right[
+[
+&lt;img src="img/sf.png" width="70%" style="display: block; margin: auto;" /&gt;
+](https://cdnsciencepub.com/doi/10.1139/cjm-2016-0576?url_ver=Z39.88-2003&amp;rfr_id=ori%3Arid%3Acrossref.org&amp;rfr_dat=cr_pub++0pubmed&amp;)
+.right[Davis, *et al*, 2017]
+
+[
+&lt;img src="img/sitios.png" width="85%" style="display: block; margin: auto;" /&gt;
+](https://www.sciencedirect.com/topics/biochemistry-genetics-and-molecular-biology/sigma-factor)
+.right[Burgess, 2001]
+]
+
+---
+# Transcriptional regulators in prokaryotes
+
+### Transcription Factors 
+
+.pull-left[&lt;br&gt;&lt;br&gt;
+- Transcriptional regulation in response to diverse environmental and cellular signals.
+
+- Activators, repressors or dual activity.
+]
+
+.pull-right[
+[
+&lt;img src="img/tf.png" width="90%" style="display: block; margin: auto;" /&gt;
+](https://link.springer.com/chapter/10.1007/978-90-481-9069-0_2)
+.right[Narain-Seshasayee, *et al*, 2011]
+]
+
+---
+# Databases used for clustering
+
+&lt;br&gt;&lt;br&gt;
+
+.pull-left[
+&lt;img src="img/cog.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+**Clusters of Orthologous Groups of proteins**
+
+- Sequence comparison.
+- 4631 groups of orthology.
+- 91 groups of Transcription Factors.
+- 4 groups of Sigma Factors.
+
+]
+
+.pull-right[
+&lt;img src="img/kegg.jpg" width="30%" style="display: block; margin: auto;" /&gt;
+
+**Kyoto Encyclopedia of Genes and Genomes**
+
+- Sequence comparison.
+- Functional classification.
+- Emperimental evidence.
+- 22557 groups of orthology.
+- 369 groups of Transcription Factors.
+- 9 groups of Sigma Factors.
+
+]
+
+---
+# Transcriptional regulators in prokaryotes
+
+### Riboswitches
+
+.pull-left[
+
+Riboswitches are composed of two domains:
+- Aptamer.
+- Expression platform.
+
+[
+&lt;img src="img/riboswitch.png" width="90%" /&gt;
+](https://www.nature.com/scitable/topicpage/riboswitches-a-common-rna-regulatory-element-14262702/#)
+.right[Edwards, *et al*, 2010]
+]
+
+.pull-right[
+Transcriptional atenuator
+[
+&lt;img src="img/terminador_transcripcional.png" width="90%" style="display: block; margin: auto;" /&gt;
+](https://www.nature.com/articles/nbt1268)
+.right[Blount &amp; Breaker, 2006]
+
+Translational atenuator
+[
+&lt;img src="img/terminador_traduccional.png" width="90%" style="display: block; margin: auto;" /&gt;
+](https://www.nature.com/articles/nbt1268)
+.right[Blount &amp; Breaker, 2006]
+]
+---
+#  Families of riboswitches deposited in the Rfam database
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+.pull-left[
+[
+&lt;img src="img/rfam.png" width="50%" style="display: block; margin: auto;" /&gt;
+](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC165453/)
+&lt;br&gt;&lt;br&gt;
+- 49 families of riboswitches.
+
+-  Sequence comparison.
+
+- Secondary structure.
+
+.right[Griffiths-Jones, *et al*, 2003]
+]
+
+.pull-right[
+.center[
+**T-Box leader**
+]
+&lt;img src="img/tbox.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+# The previously reported relationship between TFs and the genome size
+
+.left-column[&lt;br&gt;&lt;br&gt;
+- A study of 90 bacterial and archaeal genomes.
+
+- Free-living  organisms had the higher ratio of TFs.
+
+- Intracellular parasites and pathogens had a lower ratio of TFs.
+
+- The ratio of TFs/gene increases as the genome size.
+]
+.right-column[
+[
+&lt;img src="img/perezrueda_2004.png" width="100%" /&gt;
+](https://www.sciencedirect.com/science/article/abs/pii/S1476927104000672?via%3Dihub)
+.right[Pérez-Rueda, *et al*, 2004; Cases, *et al*, 2003]
+]
+---
+.center[
+# Our questions for the project
+]
+.pull-left[
+&lt;img src="img/questions.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+.center[
+**Families enrichment?**
+]
+&lt;img src="img/barras.png" width="40%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: chapter-slide
+
+# *In silico* identification of transcriptional regulators.
+
+---
+# Genomes selection
+&lt;br&gt;
+
+.pull-left[
+- 4852 bacterial genomes.
+- 281 archaeal genomes.
+
+**Avoiding redundant genomes**
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Especie &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; cepa &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CDS &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-style: italic;border-left:1px solid;border-right:1px solid;"&gt; Escherichia coli &lt;/td&gt;
+   &lt;td style="text-align:left;border-right:1px solid;"&gt; DH1 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;"&gt; 4160 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-style: italic;border-left:1px solid;border-right:1px solid;"&gt; Escherichia coli &lt;/td&gt;
+   &lt;td style="text-align:left;border-right:1px solid;"&gt; O145:H28 &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;"&gt; 5776 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+**Selection of a representative genome per specie**
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Especie &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CDS &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-style: italic;border-left:1px solid;border-right:1px solid;"&gt; Escherichia coli &lt;/td&gt;
+   &lt;td style="text-align:right;border-right:1px solid;"&gt; 5776 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; phylum &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 371 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Bacteroidetes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 212 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Chlamydiae &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Crenarchaeota &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 46 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Euryarchaeota &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 156 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Firmicutes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 487 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Planctomycetes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Proteobacteria &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1271 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Spirochaetes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Tenericutes &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Verrucomicrobia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+Total:  
+2518 bacterial genomes.  
+202 archaeal genomes.
+]
+
+---
+# Determining the number of transcription factors and sigma factors
+
+.center[
+**Transcriptional regulators count** ]
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; organismo &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; COG0568 (sigmaD/sigmaS/sigmaH) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; COG1191 (sigmaF/SigB) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; COG1508 (sigmaN) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; COG1595 (ECF) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aaa &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aab &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 52 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aalg &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 34 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+
+.center[
+**Adding genome size and phylogenetic group data**]
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; organismo &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; phylum &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; clase &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CDS &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; K02405 (sigmaF) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; K03087 (sigmaS) &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; K03088 (ECF) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aaa &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Proteobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Betaproteobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 4737 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aab &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 8115 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 45 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; aalg &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Bacteroidetes &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Flavobacteriia &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 4932 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 30 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# Prediction of transcriptional-acting riboswitches
+&lt;br&gt;
+
+.pull-left[
+.center[**Search of riboswitches**]
+&lt;br&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/rfam.png" alt="Covariance matrix (Aptamer)" width="40%" /&gt;
+&lt;p class="caption"&gt;Covariance matrix (Aptamer)&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;img src="img/cmsearch.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/intergenica.png" alt="Intergenic regions" width="40%" /&gt;
+&lt;p class="caption"&gt;Intergenic regions&lt;/p&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+**Prediction of transcriptional-terminator secondary structures**
+&lt;br&gt;&lt;br&gt;
+[
+&lt;img src="img/ribo_transcripcional.png" width="70%" style="display: block; margin: auto;" /&gt;
+](https://www.asmscience.org/content/book/10.1128/9781555817992.chap23)
+.right[Based on Merino &amp; Yanofsky, 2002]
+
+&lt;img src="img/rnafold.png" width="30%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# The erba package
+&lt;br&gt;
+&lt;img src="img/erba.png" width="100%" style="display: block; margin: auto;" /&gt;
+.center[https://github.com/josschavezf/erba]
+
+---
+# The number of transcriptional regulator proteins vary according to the database
+&lt;br&gt;&lt;br&gt;
+.left-column[&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;img src="img/F1.png" width="100%" /&gt;
+]
+
+.right-column[
+&lt;img src="img/F2.png" width="100%" /&gt;
+]
+---
+class: chapter-slide
+
+# Determining the ratio of transcriptional regulators _vs_ the genome size.
+
+---
+# The number of transcriptional regulators have an incremental with the genome size
+&lt;img src="img/F3_1.png" width="63%" style="display: block; margin: auto;" /&gt;
+
+---
+# The ratio of transcriptional regulators _vs_ the genome size is _phylum_ especific
+&lt;img src="img/F3_2.png" width="63%" style="display: block; margin: auto;" /&gt;
+
+---
+# The ratio of TFs *vs* SFs is particular for each *phylum*
+&lt;img src="img/F5.png" width="73%" style="display: block; margin: auto;" /&gt;
+
+---
+class: chapter-slide
+
+# Enrichment analysis of transcriptional regulatory families.
+
+---
+# The families enrichment is *phylum* especific
+
+.pull-left[
+&lt;img src="img/F6_1_cog.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/oddratio.png" width="25%" style="display: block; margin: auto;" /&gt;
+
+Broadly distributed families: 
+- DtxR (COG1321) -&gt; Iron metabolism.
+- TFs with (HTH)-like domains (COG2865).
+- GntR (COG1725) -&gt; Nitrogen homeostasis and carbon metabolism.
+]
+
+.pull-right[
+Archaeas
+- TFs with HTH domain (COG3373).
+- TFs involved in thiamine biosynthesis (COG1992).
+- TFs with unknown function (COG1709).
+
+Firmicutes
+- CodY (COG4465) -&gt; flageline regulation.
+- ComK (COG4903) -&gt; expression of competence genes.
+
+Proteobacterias
+- MltR (COG3722) -&gt; antibiotics production.
+- sigma54-dependent TFs (COG4650).
+]
+
+---
+# The families enrichment is *phylum* especific
+
+.pull-left[
+&lt;img src="img/F6_1_ko.png" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/oddratio.png" width="25%" style="display: block; margin: auto;" /&gt;
+
+Proteobacteria (114 exclusive KOs)
+- LysR -&gt; virulence, metabolism, QS, motility.
+- LuxR -&gt; QS
+- AraC -&gt; antibiotics resistance.
+- TetR/AcrR -&gt; pathogenicity, efflux pumps.
+]
+.pull-right[&lt;br&gt;
+Firmicutes (28 exclusive KOs)
+- MarR -&gt; efflux pumps, resistance.
+- MerR -&gt; oxidative stress response, heavy metals or antibiotics.
+
+Actinobacterias (4 exlusive KO)
+- WhiB-like -&gt; lipid anabolism during infection and virulence.
+
+Bacteroidetes (2 exclusive KO)
+- CRP/FNR -&gt; response to multiple environmental signals.
+- HTH-type.
+
+Archaeas (4 exclusive KOs with unknown function).
+]
+---
+# The families enrichment is *phylum* especific
+
+.center[**Sigma Factors**]
+&lt;img src="img/F6_2.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+.pull-left[
+- sigH -&gt; Stationary phase and sporulation onset genesn.
+- sigI -&gt; Heat shock and survival at low temperatures.
+]
+.pull-right[
+- sigmaH -&gt; Heat shock response.  
+- sigmaF is expressed in Chlamydia during the infection cycle and in response to heat shock.
+]
+
+---
+# The riboswitches enrichment is *phylum* especific
+
+.center[**Riboswitches**]
+
+&lt;img src="img/F6_3.png" width="55%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/oddratio.png" width="20%" style="display: block; margin: auto;" /&gt;
+
+---
+# Prediction of translational-acting riboswitches
+&lt;br&gt;
+
+.pull-left[
+.center[**Search of riboswitches**]
+&lt;br&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/rfam.png" alt="Covariance matrix" width="40%" /&gt;
+&lt;p class="caption"&gt;Covariance matrix&lt;/p&gt;
+&lt;/div&gt;
+&lt;br&gt;
+&lt;img src="img/cmsearch.png" width="40%" style="display: block; margin: auto;" /&gt;
+&lt;br&gt;&lt;br&gt;
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="img/intergenica.png" alt="Intergenic regions" width="40%" /&gt;
+&lt;p class="caption"&gt;Intergenic regions&lt;/p&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+**Prediction of translational-attenuator secondary structure**
+&lt;br&gt;&lt;br&gt;
+&lt;img src="img/ribo_traduccional.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="img/rnafold.png" width="25%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# The use of transcriptional or translational-acting riboswitches is *phylum* dependent
+&lt;img src="img/F8.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+class: chapter-slide
+
+# Analysis of the genomic context of transcriptional regulators.
+
+---
+# Operon prediction
+&lt;br&gt;&lt;br&gt;
+
+.pull-left[
+Using the program [Operon-mapper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6247939/) de Taboada, *et al*, 2018. &lt;br&gt;
+
+Operon-mapper evaluates:
+- The intergenic distance between neighbor genes.
+- The functional relationships among the encoded proteins.
+]
+
+.pull-right[
+Frequency of TFs and SFs as:
+- Monocystron.
+- Operon head.
+- Operon body.
+]
+&lt;br&gt;
+&lt;table class="table" style="margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; phylum &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; cog &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; operon_position &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0001 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; monocistron &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 49 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0001 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; operon body &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 259 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0001 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; operon head &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 189 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0001 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0002 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; monocistron &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; Actinobacteria &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; COG0002 &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;"&gt; operon body &lt;/td&gt;
+   &lt;td style="text-align:center;border-left:1px solid;border-right:1px solid;"&gt; 124 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# Frequencies of TFs and SFs arranged in operon
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+.left-column-rev[
+&lt;img src="img/F9_1.png" width="110%" style="display: block; margin: auto;" /&gt;
+]
+.right-column-rev[&lt;br&gt;&lt;br&gt;
+&lt;img src="img/F9_3.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+---
+# Frequencies of main SFs families arranged in operon
+&lt;img src="img/F9_2.png" width="80%" style="display: block; margin: auto;" /&gt;
+---
+# Summary
+&lt;br&gt;
+1. The abundance of transcription factors and sigma factors maintains a relationship with the genome size. 
+
+2. The ratio of transcription factors and sigma factors with genome size is *phylum* specific.
+
+3. The enrichment of transcriptional regulatory families is *phylum* specific and related with the organisms life-style.
+
+4. Exist *phylum* specific trends in the use transcriptional or translational acting riboswitches.
+
+5. The genomic context of sigma factors vary depending on the protein family.
+
+---
+# Published Article (January 2021)
+
+.center[
+&lt;img src="img/article_1.png" width="55%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: chapter-slide
+
+# The regutools package
+
+---
+
+
+```
+## Loading required package: stats4
+```
+
+```
+## Loading required package: BiocGenerics
+```
+
+```
+## Loading required package: parallel
+```
+
+```
+## 
+## Attaching package: 'BiocGenerics'
+```
+
+```
+## The following objects are masked from 'package:parallel':
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+```
+
+```
+## The following objects are masked from 'package:dplyr':
+## 
+##     combine, intersect, setdiff, union
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     IQR, mad, sd, var, xtabs
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+##     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+##     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+##     union, unique, unsplit, which.max, which.min
+```
+
+```
+## Loading required package: S4Vectors
+```
+
+```
+## 
+## Attaching package: 'S4Vectors'
+```
+
+```
+## The following objects are masked from 'package:dplyr':
+## 
+##     first, rename
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     expand.grid, I, unname
+```
+
+```
+## Loading required package: IRanges
+```
+
+```
+## 
+## Attaching package: 'IRanges'
+```
+
+```
+## The following objects are masked from 'package:dplyr':
+## 
+##     collapse, desc, slice
+```
+
+```
+## Loading required package: GenomeInfoDb
+```
+
+
+
+# The regulonDB database
+&lt;br&gt;
+
+- Contains transcriptional regulatory data from *Escherichia coli* K12.
+- Is one of the better curated databases.
+- Compiles experimental and bioinformatics data collected across more than 20 years.
+- Is continuously updated.
+
+.center[
+&lt;http://regulondb.ccg.unam.mx&gt;
+]
+
+[
+&lt;img src="img/regulondb.png" width="65%" style="display: block; margin: auto;" /&gt;
+](http://regulondb.ccg.unam.mx)
+
+---
+# Regutools facilitates the access to regulonDB in a programmatic way
+&lt;br&gt;&lt;br&gt;
+
+&lt;img src="img/regutools.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+# Regutools allows to work with the database off-line
+
+### Pros: 
+
+- Independence from the internet connection.
+- The database is stored temporary.
+- If you prefer, you can store the database permanently.
+
+### Cons:
+- You must download the database everytime regulonDB launches a new version.
+
+---
+# Connecting with the database
+
+- The database is stored separately from the main package.
+
+- We use connection through Annotation_db()
+
+
+```r
+regulondb_conn &lt;- connect_database()
+```
+
+- You can store the database in a permanent location.
+
+
+
+```r
+regulondb_conn &lt;- connect_database(bfc = BiocFileCache("base"))
+```
+
+```
+## Warning: DEPRECATION: As of AnnotationHub (&gt;2.23.2), default caching location has changed.
+##   Problematic cache: /Users/joselynchavez/Library/Caches/AnnotationHub
+##   See https://bioconductor.org/packages/devel/bioc/vignettes/AnnotationHub/inst/doc/TroubleshootingTheCache.html#default-caching-location-update
+```
+
+---
+# The regulondb object
+&lt;br&gt;
+
+.left-column[
+- An S4 object
+
+- Preserves the metadata from the database through the downstream analysis.
+
+- Will be crucial for future implementation of other genomes.
+
+- Each regutools function have as first argument the regulondb object.
+]
+
+.right-column[
+
+```r
+e_coli_regulondb &lt;-
+    regulondb(
+        database_conn = regulondb_conn,
+        organism = "E.coli",
+        database_version = "v10.8",
+        genome_version = "1"
+    )
+```
+]
+
+--
+&lt;br&gt;&lt;br&gt;
+.right-column[
+
+```r
+e_coli_regulondb
+```
+
+```
+## regulondb object
+##   organism: E.coli
+##   genome_build: 1
+##   database_version: v10.8
+##   database_conn: /Users/joselynchavez/Documents/postdoctoral_fellow/seminar_ago_2021/base/76301cf6111d_regulondb_v10.8_sqlite.db%3Fdl%3D1
+```
+]
+
+---
+class: chapter-slide
+
+# Data exploration
+
+---
+# You can list the available datasets
+
+
+```r
+list_datasets(e_coli_regulondb)
+```
+
+```
+## [1] "DNA_OBJECTS"       "GENE"              "NETWORK"           "OPERON"           
+## [5] "PROMOTER"          "REGULONDB_OBJECTS" "TF"                "TU"
+```
+
+# Each dataset contains different columns
+
+
+```r
+list_attributes(e_coli_regulondb, "GENE")
+```
+
+```
+##  [1] "id"                        "name"                      "bnumber"                  
+##  [4] "gi"                        "synonyms"                  "posleft"                  
+##  [7] "posright"                  "strand"                    "dna_sequence"             
+## [10] "external_db_link"          "evidence_reference"        "product_id"               
+## [13] "product_name"              "product_synonym"           "product_sequence"         
+## [16] "molecular_weigth"          "isoelectric_point"         "celullar_location"        
+## [19] "product_note"              "product_type"              "go_index_bp"              
+## [22] "go_desc_bp"                "go_index_cc"               "go_desc_cc"               
+## [25] "go_index_mf"               "go_desc_mf"                "product_external_db_links"
+## [28] "product_ev_ref"            "operon_id"                 "operon_name"              
+## [31] "tu_promoter"               "sigma_factor"              "gene_tf"
+```
+
+---
+
+```r
+list_attributes(e_coli_regulondb, "DNA_OBJECTS")
+```
+
+```
+## [1] "id"          "type"        "name"        "posleft"     "posright"    "strand"     
+## [7] "description"
+```
+
+
+```r
+list_attributes(e_coli_regulondb, "PROMOTER")
+```
+
+```
+##  [1] "id"                          "name"                       
+##  [3] "synonyms"                    "sigma_factor"               
+##  [5] "tss"                         "strand"                     
+##  [7] "promoter_features"           "total_ri"                   
+##  [9] "regulated_tu"                "regulated_operon"           
+## [11] "promoter_sequence"           "ri_info"                    
+## [13] "promoter_evidence_reference" "note"
+```
+
+
+```r
+list_attributes(e_coli_regulondb, "TF") %&gt;% head()
+```
+
+```
+## [1] "id"                  "name"                "synonyms"           
+## [4] "encode_tf_gene_id"   "encode_tf_operon_id" "encode_tf_tu_id"
+```
+
+---
+# You can access to a full dataset
+&lt;br&gt;
+
+```r
+get_dataset(e_coli_regulondb,"GENE")
+```
+
+The output will always be a regulondb_result
+
+
+```r
+get_dataset(e_coli_regulondb,"GENE") %&gt;% class()
+```
+
+```
+## [1] "regulondb_result"
+## attr(,"package")
+## [1] "regutools"
+```
+
+You can retrieve, select and filter data in two ways:
+
+- Converting the regulondb_result to a data frame or tibble (integration with the tidyverse).
+- Using the filtering arguments from the function.
+
+---
+## Using the filtering arguments from the function
+
+* Columns selection
+
+```r
+get_dataset(e_coli_regulondb, "GENE",
+            attributes = c("id", "name", "strand", "sigma_factor"))
+```
+
+```
+## regulondb_result with 4602 rows and 4 columns
+##                id        name      strand    sigma_factor
+##       &lt;character&gt; &lt;character&gt; &lt;character&gt;     &lt;character&gt;
+## 1    ECK120000001         alr     forward              NA
+## 2    ECK120000002        modB     forward Sigma28,Sigma70
+## 3    ECK120000003        cysZ     forward              NA
+## 4    ECK120000004         dfp     forward              NA
+## 5    ECK120000005        dcuB     reverse         Sigma70
+## ...           ...         ...         ...             ...
+## 4598 ECK125276531        yqfH     reverse              NA
+## 4599 ECK125276532        yliM     forward         Sigma70
+## 4600 ECK125276533        ynfS     forward              NA
+## 4601 ECK125276534        ylcJ     forward              NA
+## 4602 ECK125276535        sdhX     forward         Sigma70
+```
+
+With the argument **attributes** you can list all desired columns or **atributos** to retrieve.
+---
+* Filtering
+
+
+```r
+get_dataset(e_coli_regulondb, "GENE",
+            attributes = c("id", "name", "strand", "sigma_factor"),
+            filters = list(sigma_factor = "Sigma54",
+                           strand = "forward"))
+```
+
+```
+## regulondb_result with 66 rows and 4 columns
+##               id        name      strand sigma_factor
+##      &lt;character&gt; &lt;character&gt; &lt;character&gt;  &lt;character&gt;
+## 1   ECK120000007        zraS     forward      Sigma54
+## 2   ECK120000086        aslB     forward      Sigma54
+## 3   ECK120000295        fhlA     forward      Sigma54
+## 4   ECK120000475        zraR     forward      Sigma54
+## 5   ECK120000476        hypA     forward      Sigma54
+## ...          ...         ...         ...          ...
+## 62  ECK120003978        norV     forward      Sigma54
+## 63  ECK120004048        xdhA     forward      Sigma54
+## 64  ECK120004049        xdhB     forward      Sigma54
+## 65  ECK120004050        xdhC     forward      Sigma54
+## 66  ECK120004060        ygfK     forward      Sigma54
+```
+
+Use **filters** to specify conditions to match.
+
+Use a **list** format to enumerate all **filters** you want to apply.
+
+---
+
+```r
+get_dataset(e_coli_regulondb, "GENE",
+            attributes = c("id", "name", "strand", "sigma_factor"),
+            filters = list(name = "araC"))
+```
+
+```
+## regulondb_result with 1 row and 4 columns
+##             id        name      strand sigma_factor
+##    &lt;character&gt; &lt;character&gt; &lt;character&gt;  &lt;character&gt;
+## 1 ECK120000050        araC     forward      Sigma70
+```
+
+Use **partialmatch** to use pattern search for filtering.
+
+
+```r
+get_dataset(e_coli_regulondb, "GENE",
+            attributes = c("id", "name", "strand", "sigma_factor"),
+            filters = list(name = "ara", strand = "forward"),
+            partialmatch = "name")
+```
+
+```
+## regulondb_result with 5 rows and 4 columns
+##             id        name      strand sigma_factor
+##    &lt;character&gt; &lt;character&gt; &lt;character&gt;  &lt;character&gt;
+## 1 ECK120000050        araC     forward      Sigma70
+## 2 ECK120000130        carA     forward      Sigma70
+## 3 ECK120001335        barA     forward           NA
+## 4 ECK120001398        marA     forward      Sigma70
+## 5 ECK120002355        rarA     forward      Sigma70
+```
+
+---
+class: chapter-slide
+# Evaluate the genomic position of regulatory elements
+
+---
+# Retrieve all genes within a genomic range
+
+Use the **interval** argument to specify the columns where to look for genomic positions.
+
+
+```r
+get_dataset(e_coli_regulondb, "GENE",
+            attributes = c("id", "name", "strand", "posright", "posleft"),
+            filters = list(strand = "forward",
+                           posright = c("10000", "30000")),
+            interval = "posright")
+```
+
+```
+## regulondb_result with 15 rows and 5 columns
+##               id        name      strand  posright   posleft
+##      &lt;character&gt; &lt;character&gt; &lt;character&gt; &lt;integer&gt; &lt;integer&gt;
+## 1   ECK120000200        dapB     forward     29195     28374
+## 2   ECK120000234        dnaJ     forward     15298     14168
+## 3   ECK120000235        dnaK     forward     14079     12163
+## 4   ECK120000485        ileS     forward     25207     22391
+## 5   ECK120000541        lspA     forward     25701     25207
+## ...          ...         ...         ...       ...       ...
+## 11  ECK120001070        rihC     forward     28207     27293
+## 12  ECK120001465        mbiA     forward     11315     10830
+## 13  ECK120002653        sokC     forward     17006     16952
+## 14  ECK120002703      insL-1     forward     16557     15445
+## 15  ECK120002707        yaaY     forward     21399     21181
+```
+
+---
+# Retrieve all the regulatory elements within a genomic range
+
+* By deafult only shows genes
+
+```r
+get_dna_objects(e_coli_regulondb,
+                grange = GRanges("chr", IRanges(1, 5000)))
+```
+
+```
+## GRanges object with 3 ranges and 4 metadata columns:
+##       seqnames    ranges strand |           id        type        name
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; |  &lt;character&gt; &lt;character&gt; &lt;character&gt;
+##   [1]   E.coli  337-2799      + | ECK120000987        gene        thrA
+##   [2]   E.coli 2801-3733      + | ECK120000988        gene        thrB
+##   [3]   E.coli   190-255      + | ECK120001251        gene        thrL
+##                  description
+##                  &lt;character&gt;
+##   [1] fused aspartate kina..
+##   [2]      homoserine kinase
+##   [3] &lt;i&gt;thr&lt;/i&gt; operon le..
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+---
+* You can choose from "-10 promoter box", "-35 promoter box", "gene", "promoter", "Regulatory Interaction", "sRNA interaction", or "terminator".
+
+
+```r
+get_dna_objects(e_coli_regulondb,
+                grange = GRanges("chr", IRanges(200, 3000)),
+                elements = c("gene", "promoter") )
+```
+
+```
+## GRanges object with 11 ranges and 4 metadata columns:
+##        seqnames    ranges strand |           id        type                   name
+##           &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; |  &lt;character&gt; &lt;character&gt;            &lt;character&gt;
+##    [1]   E.coli  337-2799      + | ECK120000987        gene                   thrA
+##    [2]   E.coli   190-255      + | ECK120001251        gene                   thrL
+##    [3]   E.coli       683      + | ECK125230825    promoter TSS_3 (cluster) prom..
+##    [4]   E.coli       688      + | ECK125230826    promoter TSS_4 promoter with ..
+##    [5]   E.coli       703      + | ECK125230827    promoter TSS_5 promoter with ..
+##    [6]   E.coli      1009      + | ECK125230828    promoter TSS_6 promoter with ..
+##    [7]   E.coli      1176      - | ECK125230829    promoter TSS_7 promoter with ..
+##    [8]   E.coli      1886      + | ECK125230830    promoter TSS_8 promoter with ..
+##    [9]   E.coli      1965      + | ECK125230831    promoter TSS_9 promoter with ..
+##   [10]   E.coli      2581      + | ECK125230832    promoter TSS_10 promoter with..
+##   [11]   E.coli      2811      + | ECK125230833    promoter TSS_11 promoter with..
+##                   description
+##                   &lt;character&gt;
+##    [1] fused aspartate kina..
+##    [2] &lt;i&gt;thr&lt;/i&gt; operon le..
+##    [3] TSS_3 (cluster) prom..
+##    [4] TSS_4 promoter with ..
+##    [5] TSS_5 promoter with ..
+##    [6] TSS_6 promoter with ..
+##    [7] TSS_7 promoter with ..
+##    [8] TSS_8 promoter with ..
+##    [9] TSS_9 promoter with ..
+##   [10] TSS_10 promoter with..
+##   [11] TSS_11 promoter with..
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+---
+# Integration with other Bioconductor packages to plot genomic elements
+
+
+
+
+```r
+plot_dna_objects(e_coli_regulondb,
+                 grange = GRanges("chr", IRanges(200, 3000)),
+                 elements = c("gene", "promoter") )
+```
+
+&lt;img src="seminar_ago_2021_files/figure-html/unnamed-chunk-73-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+---
+class: chapter-slide
+# Transcriptional regulatory networks
+
+---
+.pull-left[
+# Get the gene regulators
+&lt;br&gt;
+
+```r
+get_gene_regulators( e_coli_regulondb,
+                     genes = c("araC"),
+                     output.type = "TF" )
+```
+
+```
+## regulondb_result with 3 rows and 3 columns
+##         genes  regulators      effect
+##   &lt;character&gt; &lt;character&gt; &lt;character&gt;
+## 1        araC         CRP           +
+## 2        araC        AraC         +/-
+## 3        araC        XylR           -
+```
+]
+
+.pull-right[
+# Get all regulated genes from a given Transcription factor
+
+
+```r
+get_regulatory_network(e_coli_regulondb,
+                       regulator = "AraC",
+                       type = "TF-GENE")
+```
+
+```
+## regulondb_result with 14 rows and 3 columns
+##       regulator   regulated      effect
+##     &lt;character&gt; &lt;character&gt; &lt;character&gt;
+## 1          AraC        araA         +/-
+## 2          AraC        araB         +/-
+## 3          AraC        araC         +/-
+## 4          AraC        araD         +/-
+## 5          AraC        araE           +
+## ...         ...         ...         ...
+## 10         AraC        xylA           -
+## 11         AraC        xylB           -
+## 12         AraC        ygeA           +
+## 13         AraC        ydeM           -
+## 14         AraC        ydeN           -
+```
+]
+
+---
+# Integration with Cytoscape
+&lt;br&gt;
+.pull-left[&lt;br&gt;&lt;br&gt;
+
+```r
+get_regulatory_network(
+  e_coli_regulondb,
+  regulator = "AraC",
+  type = "TF-GENE",
+  cytograph = TRUE)
+```
+]
+
+.pull-right[
+&lt;img src="img/network.png" width="100%" /&gt;
+]
+---
+# Retrieving TF binding sites to forward analysis
+
+
+```r
+get_binding_sites(e_coli_regulondb, transcription_factor = "AraC")
+```
+
+```
+## GRanges object with 15 ranges and 1 metadata column:
+##                          seqnames          ranges strand |               sequence
+##                             &lt;Rle&gt;       &lt;IRanges&gt;  &lt;Rle&gt; |            &lt;character&gt;
+##   ECK120015742-araB-araC      chr     70110-70126      + | ataaaaagcgTCAGGTAGGA..
+##   ECK120012328-araB-araC      chr     70131-70147      + | ccgctaatctTATGGATAAA..
+##   ECK120012320-araB-araC      chr     70184-70200      - | tctataatcaCGGCAGAAAA..
+##   ECK120012323-araB-araC      chr     70205-70221      - | caaaaacgcgTAACAAAAGT..
+##   ECK120012603-araB-araC      chr     70342-70358      - | attcagagaaGAAACCAATT..
+##                      ...      ...             ...    ... .                    ...
+##        ECK120012333-araF      chr 1986396-1986412      - | ccaaagacaaCAAGGATTTC..
+##        ECK120012915-araE      chr 2982244-2982260      - | tccatatttaTGCTGTTTCC..
+##        ECK120012913-araE      chr 2982265-2982281      - | cgacatgtcgCAGCAATTTA..
+##        ECK125108641-xylA      chr 3730824-3730840      - | taacataattGAGCAACTGA..
+##        ECK125108643-xylA      chr 3730847-3730863      - | attatctcaaTAGCAGTGTG..
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome; no seqlengths
+```
+
+---
+# regutols is available on Bioconductor
+
+.pull-left[
+.center[&lt;https://bioconductor.org/&gt; ]
+
+&lt;img src="img/bioconductor_regutools.png" width="100%" /&gt;
+]
+
+.pull-right[
+.center[August 2020]
+&lt;img src="img/article_2.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+class: middle, center
+
+&lt;img src="img/gracias.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+# Thanks for your attention!
+
+---
+class: chapter-slide, center, middle
+
+## Slides created using the [xaringan](https://github.com/yihui/xaringan) package from Yihui Xie and the theme [ms](https://github.com/josschavezf/seminario_ago_2021) from Joselyn Chávez.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+phylum	cog	operon_position	n
+Actinobacteria	COG0001	monocistron	49
+Actinobacteria	COG0001	operon body	259
+Actinobacteria	COG0001	operon head	189
+Actinobacteria	COG0001	NA	2
+Actinobacteria	COG0002	monocistron	4
+Actinobacteria	COG0002	operon body	124
